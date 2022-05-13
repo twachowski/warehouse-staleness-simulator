@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.7</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>pl.polsl.zbdihd</groupId>
+    <artifactId>warehouse-staleness-simulator</artifactId>
+    <version>${revision}</version>
+    <description>Polsl ZBDiHD assignment - Warehouse Staleness Simulator</description>
+    <packaging>pom</packaging>
+
+    <properties>
+        <revision>0.0.1-SNAPSHOT</revision>
+        <java.version>17</java.version>
+
+        <!-- dependencies -->
+        <lombok.version>1.18.24</lombok.version>
+    </properties>
+
+    <modules>
+        <module>warehouse-staleness-simulator-application</module>
+        <module>warehouse-staleness-simulator-persistence</module>
+        <module>warehouse-staleness-simulator-scheduling</module>
+        <module>warehouse-staleness-simulator-domain</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>pl.polsl.zbdihd</groupId>
+                <artifactId>warehouse-staleness-simulator-domain</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>pl.polsl.zbdihd</groupId>
+                <artifactId>warehouse-staleness-simulator-persistence</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>pl.polsl.zbdihd</groupId>
+                <artifactId>warehouse-staleness-simulator-scheduling</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <optional>true</optional>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
