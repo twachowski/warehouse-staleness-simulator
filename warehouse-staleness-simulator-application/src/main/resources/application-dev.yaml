@@ -28,6 +28,7 @@ wss:
   jobs:
     COVID:
       priority: 1
+      records-limit: 3
       generation-distribution:
         mean: 500ms
         std-dev: 500ms
@@ -40,6 +41,7 @@ wss:
 
     CURRENCY:
       priority: 2
+      records-limit: 5
       generation-distribution:
         mean: 500ms
         std-dev: 500ms
@@ -52,6 +54,7 @@ wss:
 
     TRANSACTION:
       priority: 3
+      records-limit: 4
       generation-distribution:
         mean: 500ms
         std-dev: 500ms

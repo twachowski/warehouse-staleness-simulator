@@ -11,7 +11,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 @Value
-public class Track implements ApplicationListener<WarehouseEvent> {
+public class Track implements ApplicationListener<WarehouseEvent<? extends Versionable>> {
 
     int id;
     Queue<Job<? extends Versionable>> jobs;
@@ -22,7 +22,7 @@ public class Track implements ApplicationListener<WarehouseEvent> {
     }
 
     @Override
-    public void onApplicationEvent(final WarehouseEvent event) {
+    public void onApplicationEvent(final WarehouseEvent<? extends Versionable> event) {
         if (event.getTrackId() == id) {
             jobs.add(event.getJob());
         }

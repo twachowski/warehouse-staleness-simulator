@@ -51,8 +51,8 @@ public class WssConfig {
                      final Map<TableType, JobConfig> jobs) {
         this.simulationTime = simulationTime;
         this.randomGenerator = Optional.ofNullable(seed)
-                .map(JDKRandomGenerator::new)
-                .orElseGet(JDKRandomGenerator::new);
+                                       .map(JDKRandomGenerator::new)
+                                       .orElseGet(JDKRandomGenerator::new);
         this.trackCount = trackCount;
         this.algorithm = algorithm;
         this.jobs = jobs;
@@ -73,6 +73,7 @@ public class WssConfig {
     }
 
     public record JobConfig(@NotNull Integer priority,
+                            @NotNull @Positive Integer recordsLimit,
                             @NotNull WssConfig.DistributionConfig generationDistribution,
                             @NotNull WssConfig.DistributionConfig executionTimeDistribution,
                             @NotNull WssConfig.DistributionConfig deadlineDistribution) {

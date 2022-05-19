@@ -1,5 +1,10 @@
 package pl.polsl.zbdihd.wss.domain.currency;
 
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * ISO 4217 currency codes
  */
@@ -183,6 +188,14 @@ public enum CurrencyCode {
     YER,    // No currency
     ZAR,    // Yemeni rial
     ZMW,    // South African rand
-    ZWL     // Zambian kwacha
+    ZWL;    // Zambian kwacha
+
+    private static final Map<Integer, CurrencyCode> VALUES = Stream.of(values())
+                                                                   .collect(Collectors.toUnmodifiableMap(Enum::ordinal,
+                                                                                                         Function.identity()));
+
+    public static CurrencyCode get(final int index) {
+        return VALUES.get(index % VALUES.size());
+    }
 
 }

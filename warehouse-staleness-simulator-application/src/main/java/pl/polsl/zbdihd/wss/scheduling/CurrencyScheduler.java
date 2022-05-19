@@ -4,14 +4,18 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import pl.polsl.zbdihd.wss.config.WssConfig;
 import pl.polsl.zbdihd.wss.domain.TableType;
+import pl.polsl.zbdihd.wss.domain.currency.CurrencyCode;
 import pl.polsl.zbdihd.wss.domain.currency.CurrencyJob;
 import pl.polsl.zbdihd.wss.domain.currency.CurrencyRate;
 import pl.polsl.zbdihd.wss.scheduling.event.CurrencyRateEvent;
 
-import java.util.Set;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Component
 public class CurrencyScheduler extends Scheduler<CurrencyRate, CurrencyJob, CurrencyRateEvent> {
+
+    private static final float RATE_CHANGE_LIMIT = 0.1f;
 
     public CurrencyScheduler(final WssConfig config, final ApplicationEventPublisher eventPublisher) {
         super(config,
@@ -22,8 +26,12 @@ public class CurrencyScheduler extends Scheduler<CurrencyRate, CurrencyJob, Curr
     }
 
     @Override
-    protected Set<CurrencyRate> generateRecords() {
-        return Set.of();    //TODO
+    protected CurrencyRate generateRecord() {
+        final CurrencyCode currencyCode = CurrencyCode.get(randomGenerator.nextInt());
+        final float rateChange = randomGenerator.nextFloat() * RATE_CHANGE_LIMIT;
+        return new CurrencyRate(currencyCode,
+                                BigDecimal.valueOf(rateChange),
+                                LocalDateTime.now());
     }
 
 }

@@ -6,7 +6,10 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.ComponentScan;
 
 @ConfigurationPropertiesScan(basePackages = "pl.polsl.zbdihd.wss.config")
-@ComponentScan(basePackages = "pl.polsl.zbdihd.wss.simulation")
+@ComponentScan(basePackages = {
+        "pl.polsl.zbdihd.wss.simulation",
+        "pl.polsl.zbdihd.wss.scheduling"
+})
 @SpringBootApplication
 public class WarehouseStalenessSimulatorApplication {
 
