@@ -10,7 +10,6 @@ import pl.polsl.zbdihd.wss.domain.currency.CurrencyRate;
 import pl.polsl.zbdihd.wss.scheduling.event.CurrencyRateEvent;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Component
 public class CurrencyScheduler extends Scheduler<CurrencyRate, CurrencyJob, CurrencyRateEvent> {
@@ -31,7 +30,7 @@ public class CurrencyScheduler extends Scheduler<CurrencyRate, CurrencyJob, Curr
         final float rateChange = randomGenerator.nextFloat() * RATE_CHANGE_LIMIT;
         return new CurrencyRate(currencyCode,
                                 BigDecimal.valueOf(rateChange),
-                                LocalDateTime.now());
+                                generateVersionDateTime());
     }
 
 }

@@ -10,7 +10,6 @@ import pl.polsl.zbdihd.wss.domain.transaction.TransactionJob;
 import pl.polsl.zbdihd.wss.scheduling.event.TransactionEvent;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Component
 public class TransactionScheduler extends Scheduler<Transaction, TransactionJob, TransactionEvent> {
@@ -31,7 +30,7 @@ public class TransactionScheduler extends Scheduler<Transaction, TransactionJob,
         final long amount = randomGenerator.nextLong() % TRANSACTION_AMOUNT_LIMIT;
         return new Transaction(currencyCode,
                                BigDecimal.valueOf(amount),
-                               LocalDateTime.now());
+                               generateVersionDateTime());
     }
 
 }

@@ -29,6 +29,7 @@ wss:
     COVID:
       priority: 1
       records-limit: 3
+      version-age-limit: 2h
       generation-distribution:
         mean: 500ms
         std-dev: 500ms
@@ -42,6 +43,7 @@ wss:
     CURRENCY:
       priority: 2
       records-limit: 5
+      version-age-limit: 10m
       generation-distribution:
         mean: 500ms
         std-dev: 500ms
@@ -55,6 +57,7 @@ wss:
     TRANSACTION:
       priority: 3
       records-limit: 4
+      version-age-limit: 30m
       generation-distribution:
         mean: 500ms
         std-dev: 500ms

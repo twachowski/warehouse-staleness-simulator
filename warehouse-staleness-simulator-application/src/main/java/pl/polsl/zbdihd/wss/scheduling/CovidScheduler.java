@@ -9,8 +9,6 @@ import pl.polsl.zbdihd.wss.domain.covid.CovidReport;
 import pl.polsl.zbdihd.wss.domain.covid.Voivodeship;
 import pl.polsl.zbdihd.wss.scheduling.event.CovidReportEvent;
 
-import java.time.LocalDateTime;
-
 @Component
 public class CovidScheduler extends Scheduler<CovidReport, CovidJob, CovidReportEvent> {
 
@@ -36,7 +34,7 @@ public class CovidScheduler extends Scheduler<CovidReport, CovidJob, CovidReport
                                infections,
                                deaths,
                                vaccinations,
-                               LocalDateTime.now());
+                               generateVersionDateTime());
     }
 
 }

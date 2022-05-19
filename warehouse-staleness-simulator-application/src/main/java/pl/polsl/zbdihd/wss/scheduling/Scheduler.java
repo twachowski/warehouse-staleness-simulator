@@ -14,6 +14,7 @@ import pl.polsl.zbdihd.wss.scheduling.distribution.NormalDurationDistribution;
 import pl.polsl.zbdihd.wss.scheduling.event.WarehouseEvent;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ abstract class Scheduler<TRecord extends Versionable, TJob extends Job<TRecord>,
     private final NormalDurationDistribution executionTimeDistribution;
     private final NormalDurationDistribution deadlineDistribution;
     private final int recordsLimit;
+    private final Duration versionAgeLimit;
     private final Supplier<Integer> trackIdSupplier;
     private final Function3<Duration, Set<TRecord>, Duration, TJob> jobCreator;
     private final Function2<TJob, Integer, TEvent> eventCreator;
@@ -41,6 +43,7 @@ abstract class Scheduler<TRecord extends Versionable, TJob extends Job<TRecord>,
         this.executionTimeDistribution = config.createDistribution(jobConfig.executionTimeDistribution());
         this.deadlineDistribution = config.createDistribution(jobConfig.deadlineDistribution());
         this.recordsLimit = jobConfig.recordsLimit();
+        this.versionAgeLimit = jobConfig.versionAgeLimit();
         this.trackIdSupplier = config.getTrackIdSupplier();
         this.jobCreator = jobCreator;
         this.eventCreator = eventCreator;
@@ -58,6 +61,11 @@ abstract class Scheduler<TRecord extends Versionable, TJob extends Job<TRecord>,
 
     private int getNumberOfRecordsToGenerate() {
         return randomGenerator.nextInt(recordsLimit) + 1;
+    }
+
+    protected LocalDateTime generateVersionDateTime() {
+        return LocalDateTime.now()
+                            .minusSeconds(versionAgeLimit.getSeconds());
     }
 
     private TEvent generateEvent() {

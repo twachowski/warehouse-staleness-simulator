@@ -74,6 +74,7 @@ public class WssConfig {
 
     public record JobConfig(@NotNull Integer priority,
                             @NotNull @Positive Integer recordsLimit,
+                            @NotNull Duration versionAgeLimit,
                             @NotNull WssConfig.DistributionConfig generationDistribution,
                             @NotNull WssConfig.DistributionConfig executionTimeDistribution,
                             @NotNull WssConfig.DistributionConfig deadlineDistribution) {
