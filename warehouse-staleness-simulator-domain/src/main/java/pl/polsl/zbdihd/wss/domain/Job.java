@@ -1,7 +1,6 @@
 package pl.polsl.zbdihd.wss.domain;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 public interface Job<T> {
@@ -12,6 +11,6 @@ public interface Job<T> {
 
     Set<T> records();
 
-    LocalDateTime deadline();
+    Duration deadline();
 
 }
