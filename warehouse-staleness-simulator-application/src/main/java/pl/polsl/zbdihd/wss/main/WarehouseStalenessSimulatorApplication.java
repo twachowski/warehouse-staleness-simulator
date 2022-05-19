@@ -2,7 +2,11 @@ package pl.polsl.zbdihd.wss.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.context.annotation.ComponentScan;
 
+@ConfigurationPropertiesScan(basePackages = "pl.polsl.zbdihd.wss.config")
+@ComponentScan(basePackages = "pl.polsl.zbdihd.wss.simulation")
 @SpringBootApplication
 public class WarehouseStalenessSimulatorApplication {
 
