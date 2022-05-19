@@ -1,0 +1,61 @@
+# ==============
+# Logging config
+# ==============
+logging:
+  config: classpath:log4j2-prod.yaml
+
+# ===============
+# Database config
+# ===============
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/warehouse-staleness-simulator?serverTimezone=CET
+    username: root
+    password: root
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
+# =================
+# Simulation config
+# =================
+wss:
+  simulation-time: 5s
+  seed: 12345
+  track-count: 4
+  algorithm: EDF  # EDF | EDFP | MAXB
+  jobs:
+    COVID:
+      priority: 1
+      generation-distribution:
+        mean: 500ms
+        std-dev: 500ms
+      execution-time-distribution:
+        mean: 100ms
+        std-dev: 50ms
+      deadline-distribution:
+        mean: 500ms
+        std-dev: 100ms
+
+    CURRENCY:
+      priority: 2
+      generation-distribution:
+        mean: 500ms
+        std-dev: 500ms
+      execution-time-distribution:
+        mean: 100ms
+        std-dev: 50ms
+      deadline-distribution:
+        mean: 500ms
+        std-dev: 100ms
+
+    TRANSACTION:
+      priority: 3
+      generation-distribution:
+        mean: 500ms
+        std-dev: 500ms
+      execution-time-distribution:
+        mean: 100ms
+        std-dev: 50ms
+      deadline-distribution:
+        mean: 500ms
+        std-dev: 100ms

@@ -1,0 +1,33 @@
+Properties:
+  Property:
+    - name: DATE_PATTERN
+      value: "yyyy-MM-dd HH:mm:ss.SSS"
+    - name: LOG_LEVEL_PATTERN
+      value: "%5p"
+    - name: THREAD_PATTERN
+      value: "[%15.15t]"
+    - name: LOGGER_NAME_PATTERN
+      value: "%-80.80c"
+    - name: LOG_PATTERN
+      value: "%d{${DATE_PATTERN}} %clr{${LOG_LEVEL_PATTERN}} %magenta{%pid} --- ${THREAD_PATTERN} %cyan{${LOGGER_NAME_PATTERN}} : %m%n"
+
+
+Appenders:
+  Console:
+    name: CONSOLE
+    target: SYSTEM_OUT
+    PatternLayout:
+      pattern: ${LOG_PATTERN}
+
+
+Loggers:
+  Logger:
+    - name: org.hibernate.SQL
+      level: DEBUG
+    - name: pl.polsl.zbdihd
+      level: DEBUG
+
+  Root:
+    level: INFO
+    AppenderRef:
+      - ref: CONSOLE
