@@ -8,6 +8,5 @@ import java.time.LocalDateTime;
 
 public record Transaction(CurrencyCode currencyCode,
                           BigDecimal amount,
-                          LocalDateTime creationDateTime,
                           LocalDateTime versionDateTime) implements Versionable {
 }

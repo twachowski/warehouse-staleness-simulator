@@ -37,9 +37,6 @@ public class TransactionEntity implements Versionable {
     private BigDecimal amount;
 
     @Column(nullable = false)
-    private LocalDateTime creationDateTime;
-
-    @Column(nullable = false)
     private LocalDateTime versionDateTime;
 
     @Override
@@ -72,7 +69,6 @@ public class TransactionEntity implements Versionable {
                 "id=" + id +
                 ", currencyCode=" + currencyCode +
                 ", amount=" + amount +
-                ", creationDateTime=" + creationDateTime +
                 ", versionDateTime=" + versionDateTime +
                 '}';
     }
@@ -81,7 +77,6 @@ public class TransactionEntity implements Versionable {
         return new TransactionEntity(null,
                                      transaction.currencyCode(),
                                      transaction.amount(),
-                                     transaction.creationDateTime(),
                                      transaction.versionDateTime());
     }
 
