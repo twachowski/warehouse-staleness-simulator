@@ -6,6 +6,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public record CurrencyRate(CurrencyCode code,
-                           BigDecimal rate,
+                           BigDecimal rateChange,
                            LocalDateTime versionDateTime) implements Versionable {
 }

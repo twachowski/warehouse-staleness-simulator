@@ -63,10 +63,10 @@ public class CurrencyEntity implements Versionable {
                 '}';
     }
 
-    public static CurrencyEntity valueOf(final CurrencyRate currencyRate) {
-        return new CurrencyEntity(currencyRate.code(),
-                                  currencyRate.rate(),
-                                  currencyRate.versionDateTime());
+    public CurrencyEntity withRateChange(final CurrencyRate currencyRate) {
+        this.rate = rate.add(currencyRate.rateChange());
+        this.versionDateTime = currencyRate.versionDateTime();
+        return this;
     }
 
 }
