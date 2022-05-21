@@ -1,0 +1,17 @@
+insert into covid_report
+values ('DNSL', 502, 27059, 12578, current_date),
+       ('KPOM', 229, 22811, 9120, current_date),
+       ('LODZ', 1288, 71892, 13585, current_date),
+       ('LBEL', 688, 37853, 17275, current_date),
+       ('LUBU', 1683, 24970, 9921, current_date),
+       ('MPOL', 1548, 48372, 23965, current_date),
+       ('MZWK', 957, 68922, 29844, current_date),
+       ('OPOL', 819, 48192, 10587, current_date),
+       ('PDKP', 918, 27059, 12855, current_date),
+       ('PDLK', 412, 35822, 9158, current_date),
+       ('PMSK', 1052, 20582, 10522, current_date),
+       ('SLSK', 351, 67398, 38152, current_date),
+       ('SWKS', 1321, 51982, 23478, current_date),
+       ('WMAZ', 375, 38192, 17633, current_date),
+       ('WLKP', 581, 60182, 18925, current_date),
+       ('ZPOM', 858, 75722, 27289, current_date);

@@ -14,8 +14,15 @@ spring:
     password: root
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    defer-datasource-initialization: true
+  sql:
+    init:
+      data-locations:
+        - scripts/covid.sql
+        - scripts/currency.sql
+      mode: always
 
 # =================
 # Simulation config
