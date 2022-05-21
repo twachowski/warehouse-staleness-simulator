@@ -164,31 +164,32 @@ public enum CurrencyCode {
     UYU,    // Uruguayan peso
     UYW,    // Unidad previsional[15]
     UZS,    // Uzbekistan som
-    VES,    // Venezuelan bolívar digital[16]
-    VND,    // Venezuelan bolívar soberano[13]
-    VUV,    // Vietnamese đồng
-    WST,    // Vanuatu vatu
-    XAF,    // Samoan tala
-    XAG,    // CFA franc BEAC
-    XAU,    // Silver (one troy ounce)
-    XBA,    // Gold (one troy ounce)
-    XBB,    // European Composite Unit (EURCO) (bond market unit)
-    XBC,    // European Monetary Unit (E.M.U.-6) (bond market unit)
-    XBD,    // European Unit of Account 9 (E.U.A.-9) (bond market unit)
-    XCD,    // European Unit of Account 17 (E.U.A.-17) (bond market unit)
-    XDR,    // East Caribbean dollar
-    XOF,    // Special drawing rights
-    XPD,    // CFA franc BCEAO
-    XPF,    // Palladium (one troy ounce)
-    XPT,    // CFP franc (franc Pacifique)
-    XSU,    // Platinum (one troy ounce)
-    XTS,    // SUCRE
-    XUA,    // Code reserved for testing
-    XXX,    // ADB Unit of Account
-    YER,    // No currency
-    ZAR,    // Yemeni rial
-    ZMW,    // South African rand
-    ZWL;    // Zambian kwacha
+    VED,    // Venezuelan bolívar digital[16]
+    VES,    // Venezuelan bolívar soberano[13]
+    VND,    // Vietnamese đồng
+    VUV,    // Vanuatu vatu
+    WST,    // Samoan tala
+    XAF,    // CFA franc BEAC
+    XAG,    // Silver (one troy ounce)
+    XAU,    // Gold (one troy ounce)
+    XBA,    // European Composite Unit (EURCO) (bond market unit)
+    XBB,    // European Monetary Unit (E.M.U.-6) (bond market unit)
+    XBC,    // European Unit of Account 9 (E.U.A.-9) (bond market unit)
+    XBD,    // European Unit of Account 17 (E.U.A.-17) (bond market unit)
+    XCD,    // East Caribbean dollar
+    XDR,    // Special drawing rights
+    XOF,    // CFA franc BCEAO
+    XPD,    // Palladium (one troy ounce)
+    XPF,    // CFP franc (franc Pacifique)
+    XPT,    // Platinum (one troy ounce)
+    XSU,    // SUCRE
+    XTS,    // Code reserved for testing
+    XUA,    // ADB Unit of Account
+    XXX,    // No currency
+    YER,    // Yemeni rial
+    ZAR,    // South African rand
+    ZMW,    // Zambian kwacha
+    ZWL;    // Zimbabwean dollar
 
     private static final Map<Integer, CurrencyCode> VALUES = Stream.of(values())
                                                                    .collect(Collectors.toUnmodifiableMap(Enum::ordinal,
