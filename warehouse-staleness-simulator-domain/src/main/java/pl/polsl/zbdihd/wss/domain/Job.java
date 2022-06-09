@@ -13,4 +13,8 @@ public interface Job<T> {
 
     Duration deadline();
 
+    default void execute() throws InterruptedException {
+        Thread.sleep(executionTime().toMillis());
+    }
+
 }
