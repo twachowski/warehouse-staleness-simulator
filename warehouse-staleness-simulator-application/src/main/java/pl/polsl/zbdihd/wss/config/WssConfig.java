@@ -7,6 +7,10 @@ import org.apache.commons.math3.random.RandomGenerator;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.validation.annotation.Validated;
 import pl.polsl.zbdihd.wss.algorithm.*;
 import pl.polsl.zbdihd.wss.domain.TableType;
@@ -22,6 +26,7 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.Executor;
 import java.util.function.Supplier;
 
 @ConfigurationProperties(prefix = "wss")
@@ -29,7 +34,7 @@ import java.util.function.Supplier;
 @Validated
 @ToString
 @Value
-public class WssConfig {
+public class WssConfig extends AsyncConfigurerSupport {
 
     @NotNull
     Duration simulationTime;
@@ -74,6 +79,21 @@ public class WssConfig {
     @Bean
     Track track3(final Set<JobExecutor<?>> jobExecutors) {
         return new Track(3, jobOrderingAlgorithm, jobExecutors);
+    }
+
+    @Bean
+    TaskScheduler taskScheduler() {
+        final ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+        taskScheduler.setPoolSize(10);
+        return taskScheduler;
+    }
+
+    @Override
+    public Executor getAsyncExecutor() {
+        final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(10);
+        executor.initialize();
+        return executor;
     }
 
     public JobConfig getJobConfig(final TableType tableType) {
