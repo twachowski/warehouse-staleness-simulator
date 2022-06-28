@@ -21,7 +21,6 @@ spring:
 wss:
   simulation-time: 5s
   seed: 12345
-  track-count: 4
   algorithm: EDF  # EDF | EDFP | MAXB
   jobs:
     COVID:
