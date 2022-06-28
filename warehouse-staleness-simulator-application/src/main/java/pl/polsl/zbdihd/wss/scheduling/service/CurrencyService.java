@@ -10,6 +10,7 @@ import pl.polsl.zbdihd.wss.domain.currency.CurrencyRate;
 import pl.polsl.zbdihd.wss.persistence.entity.CurrencyEntity;
 import pl.polsl.zbdihd.wss.persistence.repository.CurrencyEntityRepository;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Set;
@@ -40,13 +41,21 @@ public class CurrencyService extends JobExecutor<CurrencyJob> {
         final LocalDateTime executionStartTime = LocalDateTime.now();
         final Map<CurrencyCode, CurrencyRate> currencyRates = job.records()
                                                                  .stream()
-                                                                 .collect(Collectors.toMap(CurrencyRate::code, Function.identity()));
+                                                                 .collect(Collectors.toMap(CurrencyRate::code,
+                                                                                           Function.identity(),
+                                                                                           CurrencyService::mergeCurrencyRates));
         final Set<CurrencyEntity> currencies = currencyRepository.findAllById(currencyRates.keySet())
                                                                  .stream()
                                                                  .map(currency -> currency.withRateChange(currencyRates.get(currency.getCode())))
                                                                  .collect(Collectors.toSet());
         currencyRepository.saveAll(currencies);
         simulateExecution(job, executionStartTime, trackId);
+    }
+
+    private static CurrencyRate mergeCurrencyRates(final CurrencyRate c1, final CurrencyRate c2) {
+        final BigDecimal rateChange = c1.rateChange().add(c2.rateChange());
+        final LocalDateTime versionDateTime = c1.versionDateTime().isAfter(c2.versionDateTime()) ? c1.versionDateTime() : c2.versionDateTime();
+        return new CurrencyRate(c1.code(), rateChange, versionDateTime);
     }
 
 }
