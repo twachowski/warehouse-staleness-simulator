@@ -26,7 +26,7 @@ public class TransactionScheduler extends Scheduler<Transaction, TransactionJob,
 
     @Override
     protected Transaction generateRecord() {
-        final CurrencyCode currencyCode = CurrencyCode.get(randomGenerator.nextInt());
+        final CurrencyCode currencyCode = CurrencyCode.get(randomGenerator.nextInt(CurrencyCode.size()));
         final long amount = randomGenerator.nextLong() % TRANSACTION_AMOUNT_LIMIT;
         return new Transaction(currencyCode,
                                BigDecimal.valueOf(amount),

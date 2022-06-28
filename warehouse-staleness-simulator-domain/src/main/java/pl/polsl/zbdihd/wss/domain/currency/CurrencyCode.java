@@ -199,4 +199,8 @@ public enum CurrencyCode {
         return VALUES.get(index % VALUES.size());
     }
 
+    public static int size() {
+        return VALUES.size();
+    }
+
 }

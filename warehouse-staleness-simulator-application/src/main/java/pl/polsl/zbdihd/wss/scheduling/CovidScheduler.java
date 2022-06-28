@@ -26,7 +26,7 @@ public class CovidScheduler extends Scheduler<CovidReport, CovidJob, CovidReport
 
     @Override
     protected CovidReport generateRecord() {
-        final Voivodeship voivodeship = Voivodeship.get(randomGenerator.nextInt());
+        final Voivodeship voivodeship = Voivodeship.get(randomGenerator.nextInt(Voivodeship.size()));
         final int infections = randomGenerator.nextInt(INFECTIONS_LIMIT);
         final int deaths = randomGenerator.nextInt(DEATHS_LIMIT);
         final int vaccinations = randomGenerator.nextInt(VACCINATIONS_LIMIT);

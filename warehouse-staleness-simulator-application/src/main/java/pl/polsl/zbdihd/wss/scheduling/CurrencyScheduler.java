@@ -57,7 +57,7 @@ public class CurrencyScheduler extends Scheduler<CurrencyRate, CurrencyJob, Curr
 
     private CurrencyCode getCurrencyCode() {
         while (true) {
-            final CurrencyCode currencyCode = CurrencyCode.get(randomGenerator.nextInt());
+            final CurrencyCode currencyCode = CurrencyCode.get(randomGenerator.nextInt(CurrencyCode.size()));
             if (!FORBIDDEN_CURRENCIES.contains(currencyCode)) {
                 return currencyCode;
             }
