@@ -10,9 +10,9 @@ import pl.polsl.zbdihd.wss.scheduling.event.WarehouseEvent;
 import pl.polsl.zbdihd.wss.scheduling.service.JobExecutor;
 
 import java.util.Objects;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Slf4j
 public class Track implements ApplicationListener<WarehouseEvent> {
@@ -20,7 +20,7 @@ public class Track implements ApplicationListener<WarehouseEvent> {
     private final int id;
     private final JobOrderingAlgorithm orderingAlgorithm;
     private final Set<JobExecutor<? extends Job<?>>> jobExecutors;
-    private final Queue<Job<?>> jobs = new PriorityQueue<>();
+    private final Queue<Job<?>> jobs = new ConcurrentLinkedQueue<>();
     private Job<?> currentJob;
 
     public Track(final int id,
