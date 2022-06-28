@@ -38,10 +38,10 @@ wss:
       version-age-limit: 2h
       generation-distribution:
         mean: 500ms
-        std-dev: 500ms
+        std-dev: 50ms
       execution-time-distribution:
         mean: 100ms
-        std-dev: 50ms
+        std-dev: 20ms
       deadline-distribution:
         mean: 500ms
         std-dev: 100ms
@@ -52,10 +52,10 @@ wss:
       version-age-limit: 10m
       generation-distribution:
         mean: 500ms
-        std-dev: 500ms
+        std-dev: 50ms
       execution-time-distribution:
         mean: 100ms
-        std-dev: 50ms
+        std-dev: 20ms
       deadline-distribution:
         mean: 500ms
         std-dev: 100ms
@@ -66,10 +66,10 @@ wss:
       version-age-limit: 30m
       generation-distribution:
         mean: 500ms
-        std-dev: 500ms
+        std-dev: 50ms
       execution-time-distribution:
         mean: 100ms
-        std-dev: 50ms
+        std-dev: 20ms
       deadline-distribution:
         mean: 500ms
         std-dev: 100ms
