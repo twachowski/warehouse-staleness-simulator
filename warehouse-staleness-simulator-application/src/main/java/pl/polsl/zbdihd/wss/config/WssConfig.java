@@ -6,10 +6,13 @@ import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.context.annotation.Bean;
 import org.springframework.validation.annotation.Validated;
-import pl.polsl.zbdihd.wss.algorithm.JobOrderingAlgorithmType;
+import pl.polsl.zbdihd.wss.algorithm.*;
 import pl.polsl.zbdihd.wss.domain.TableType;
 import pl.polsl.zbdihd.wss.scheduling.distribution.NormalDurationDistribution;
+import pl.polsl.zbdihd.wss.scheduling.service.JobExecutor;
+import pl.polsl.zbdihd.wss.scheduling.track.Track;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -18,6 +21,7 @@ import javax.validation.constraints.Size;
 import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Supplier;
 
 @ConfigurationProperties(prefix = "wss")
@@ -34,11 +38,7 @@ public class WssConfig {
     RandomGenerator randomGenerator;
 
     @NotNull
-    @Positive
-    Integer trackCount;
-
-    @NotNull
-    JobOrderingAlgorithmType algorithm;
+    JobOrderingAlgorithm jobOrderingAlgorithm;
 
     @NotEmpty
     @Size(min = 3)
@@ -46,16 +46,34 @@ public class WssConfig {
 
     public WssConfig(final Duration simulationTime,
                      final Integer seed,
-                     final Integer trackCount,
                      final JobOrderingAlgorithmType algorithm,
                      final Map<TableType, JobConfig> jobs) {
         this.simulationTime = simulationTime;
         this.randomGenerator = Optional.ofNullable(seed)
                                        .map(JDKRandomGenerator::new)
                                        .orElseGet(JDKRandomGenerator::new);
-        this.trackCount = trackCount;
-        this.algorithm = algorithm;
+        this.jobOrderingAlgorithm = createAlgorithm(algorithm);
         this.jobs = jobs;
+    }
+
+    @Bean
+    Track track0(final Set<JobExecutor<?>> jobExecutors) {
+        return new Track(0, jobOrderingAlgorithm, jobExecutors);
+    }
+
+    @Bean
+    Track track1(final Set<JobExecutor<?>> jobExecutors) {
+        return new Track(1, jobOrderingAlgorithm, jobExecutors);
+    }
+
+    @Bean
+    Track track2(final Set<JobExecutor<?>> jobExecutors) {
+        return new Track(2, jobOrderingAlgorithm, jobExecutors);
+    }
+
+    @Bean
+    Track track3(final Set<JobExecutor<?>> jobExecutors) {
+        return new Track(3, jobOrderingAlgorithm, jobExecutors);
     }
 
     public JobConfig getJobConfig(final TableType tableType) {
@@ -69,7 +87,7 @@ public class WssConfig {
     }
 
     public Supplier<Integer> getTrackIdSupplier() {
-        return () -> randomGenerator.nextInt(trackCount);
+        return () -> randomGenerator.nextInt(4);
     }
 
     public record JobConfig(@NotNull Integer priority,
@@ -82,6 +100,14 @@ public class WssConfig {
 
     public record DistributionConfig(@NotNull Duration mean,
                                      @NotNull Duration stdDev) {
+    }
+
+    private static JobOrderingAlgorithm createAlgorithm(final JobOrderingAlgorithmType algorithmType) {
+        return switch (algorithmType) {
+            case EDF -> new EarliestDeadlineFirst();
+            case MAXB -> new MaxBenefit();
+            case EDFP -> new PrioritizedEarliestDeadlineFirst();
+        };
     }
 
 }

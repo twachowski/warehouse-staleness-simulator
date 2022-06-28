@@ -7,10 +7,10 @@ import pl.polsl.zbdihd.wss.domain.TableType;
 import pl.polsl.zbdihd.wss.domain.covid.CovidJob;
 import pl.polsl.zbdihd.wss.domain.covid.CovidReport;
 import pl.polsl.zbdihd.wss.domain.covid.Voivodeship;
-import pl.polsl.zbdihd.wss.scheduling.event.CovidReportEvent;
+import pl.polsl.zbdihd.wss.scheduling.event.CovidReportJobEvent;
 
 @Component
-public class CovidScheduler extends Scheduler<CovidReport, CovidJob, CovidReportEvent> {
+public class CovidScheduler extends Scheduler<CovidReport, CovidJob, CovidReportJobEvent> {
 
     private static final int INFECTIONS_LIMIT = 1000;
     private static final int DEATHS_LIMIT = 15;
@@ -20,7 +20,7 @@ public class CovidScheduler extends Scheduler<CovidReport, CovidJob, CovidReport
         super(config,
               TableType.COVID,
               CovidJob::new,
-              CovidReportEvent::new,
+              CovidReportJobEvent::new,
               eventPublisher);
     }
 

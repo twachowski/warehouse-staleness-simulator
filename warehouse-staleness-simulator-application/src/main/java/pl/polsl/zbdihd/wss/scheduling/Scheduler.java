@@ -11,7 +11,7 @@ import pl.polsl.zbdihd.wss.domain.Job;
 import pl.polsl.zbdihd.wss.domain.TableType;
 import pl.polsl.zbdihd.wss.domain.Versionable;
 import pl.polsl.zbdihd.wss.scheduling.distribution.NormalDurationDistribution;
-import pl.polsl.zbdihd.wss.scheduling.event.WarehouseEvent;
+import pl.polsl.zbdihd.wss.scheduling.event.NewJobEvent;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-abstract class Scheduler<TRecord extends Versionable, TJob extends Job<TRecord>, TEvent extends WarehouseEvent<TRecord>> implements ApplicationListener<ApplicationReadyEvent> {
+abstract class Scheduler<TRecord extends Versionable, TJob extends Job<TRecord>, TEvent extends NewJobEvent<TRecord>> implements ApplicationListener<ApplicationReadyEvent> {
 
     private final NormalDurationDistribution generationDistribution;
     private final NormalDurationDistribution executionTimeDistribution;

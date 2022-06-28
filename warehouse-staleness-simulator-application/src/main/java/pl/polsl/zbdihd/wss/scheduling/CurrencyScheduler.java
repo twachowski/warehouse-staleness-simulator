@@ -7,14 +7,14 @@ import pl.polsl.zbdihd.wss.domain.TableType;
 import pl.polsl.zbdihd.wss.domain.currency.CurrencyCode;
 import pl.polsl.zbdihd.wss.domain.currency.CurrencyJob;
 import pl.polsl.zbdihd.wss.domain.currency.CurrencyRate;
-import pl.polsl.zbdihd.wss.scheduling.event.CurrencyRateEvent;
+import pl.polsl.zbdihd.wss.scheduling.event.CurrencyRateJobEvent;
 
 import java.math.BigDecimal;
 import java.util.EnumSet;
 import java.util.Set;
 
 @Component
-public class CurrencyScheduler extends Scheduler<CurrencyRate, CurrencyJob, CurrencyRateEvent> {
+public class CurrencyScheduler extends Scheduler<CurrencyRate, CurrencyJob, CurrencyRateJobEvent> {
 
     /**
      * Base currency (EUR) and other currencies with missing exchange rates.
@@ -42,7 +42,7 @@ public class CurrencyScheduler extends Scheduler<CurrencyRate, CurrencyJob, Curr
         super(config,
               TableType.CURRENCY,
               CurrencyJob::new,
-              CurrencyRateEvent::new,
+              CurrencyRateJobEvent::new,
               eventPublisher);
     }
 

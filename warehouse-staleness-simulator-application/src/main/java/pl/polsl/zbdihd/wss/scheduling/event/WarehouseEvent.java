@@ -1,20 +1,30 @@
 package pl.polsl.zbdihd.wss.scheduling.event;
 
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.context.ApplicationEvent;
-import pl.polsl.zbdihd.wss.domain.Job;
-import pl.polsl.zbdihd.wss.domain.Versionable;
 
 @Getter
-public abstract class WarehouseEvent<T extends Versionable> extends ApplicationEvent {
+@ToString
+public abstract class WarehouseEvent extends ApplicationEvent {
 
-    private final Job<T> job;
     private final int trackId;
 
-    WarehouseEvent(final Job<T> job, final int trackId) {
-        super(job);
-        this.job = job;
+    protected WarehouseEvent(final int trackId) {
+        super(trackId);
         this.trackId = trackId;
+    }
+
+    public boolean hasNewJob() {
+        return this instanceof NewJobEvent;
+    }
+
+    public NewJobEvent<?> asNewJobEvent() {
+        return (NewJobEvent<?>) this;
+    }
+
+    public boolean isJobFinished() {
+        return this instanceof JobFinishedEvent;
     }
 
 }

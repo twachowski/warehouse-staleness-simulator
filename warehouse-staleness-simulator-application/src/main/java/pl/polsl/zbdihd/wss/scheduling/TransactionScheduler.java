@@ -7,12 +7,12 @@ import pl.polsl.zbdihd.wss.domain.TableType;
 import pl.polsl.zbdihd.wss.domain.currency.CurrencyCode;
 import pl.polsl.zbdihd.wss.domain.transaction.Transaction;
 import pl.polsl.zbdihd.wss.domain.transaction.TransactionJob;
-import pl.polsl.zbdihd.wss.scheduling.event.TransactionEvent;
+import pl.polsl.zbdihd.wss.scheduling.event.TransactionJobEvent;
 
 import java.math.BigDecimal;
 
 @Component
-public class TransactionScheduler extends Scheduler<Transaction, TransactionJob, TransactionEvent> {
+public class TransactionScheduler extends Scheduler<Transaction, TransactionJob, TransactionJobEvent> {
 
     private static final long TRANSACTION_AMOUNT_LIMIT = 5000L;
 
@@ -20,7 +20,7 @@ public class TransactionScheduler extends Scheduler<Transaction, TransactionJob,
         super(config,
               TableType.TRANSACTION,
               TransactionJob::new,
-              TransactionEvent::new,
+              TransactionJobEvent::new,
               eventPublisher);
     }
 
