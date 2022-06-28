@@ -1,6 +1,7 @@
 package pl.polsl.zbdihd.wss.scheduling;
 
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Component;
 import pl.polsl.zbdihd.wss.config.WssConfig;
 import pl.polsl.zbdihd.wss.domain.TableType;
@@ -16,12 +17,15 @@ public class CovidScheduler extends Scheduler<CovidReport, CovidJob, CovidReport
     private static final int DEATHS_LIMIT = 15;
     private static final int VACCINATIONS_LIMIT = 50;
 
-    public CovidScheduler(final WssConfig config, final ApplicationEventPublisher eventPublisher) {
+    public CovidScheduler(final WssConfig config,
+                          final ApplicationEventPublisher eventPublisher,
+                          final TaskScheduler taskScheduler) {
         super(config,
               TableType.COVID,
               CovidJob::new,
               CovidReportJobEvent::new,
-              eventPublisher);
+              eventPublisher,
+              taskScheduler);
     }
 
     @Override

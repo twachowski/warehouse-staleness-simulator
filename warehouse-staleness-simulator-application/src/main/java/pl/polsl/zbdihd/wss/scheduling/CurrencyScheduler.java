@@ -1,6 +1,7 @@
 package pl.polsl.zbdihd.wss.scheduling;
 
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Component;
 import pl.polsl.zbdihd.wss.config.WssConfig;
 import pl.polsl.zbdihd.wss.domain.TableType;
@@ -38,12 +39,15 @@ public class CurrencyScheduler extends Scheduler<CurrencyRate, CurrencyJob, Curr
 
     private static final float RATE_CHANGE_LIMIT = 0.1f;
 
-    public CurrencyScheduler(final WssConfig config, final ApplicationEventPublisher eventPublisher) {
+    public CurrencyScheduler(final WssConfig config,
+                             final ApplicationEventPublisher eventPublisher,
+                             final TaskScheduler taskScheduler) {
         super(config,
               TableType.CURRENCY,
               CurrencyJob::new,
               CurrencyRateJobEvent::new,
-              eventPublisher);
+              eventPublisher,
+              taskScheduler);
     }
 
     @Override

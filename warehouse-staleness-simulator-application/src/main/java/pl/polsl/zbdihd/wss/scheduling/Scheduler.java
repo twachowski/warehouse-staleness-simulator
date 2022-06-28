@@ -6,6 +6,7 @@ import org.apache.commons.math3.random.RandomGenerator;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
+import org.springframework.scheduling.TaskScheduler;
 import pl.polsl.zbdihd.wss.config.WssConfig;
 import pl.polsl.zbdihd.wss.domain.Job;
 import pl.polsl.zbdihd.wss.domain.TableType;
@@ -31,13 +32,15 @@ abstract class Scheduler<TRecord extends Versionable, TJob extends Job<TRecord>,
     private final Function3<Duration, Set<TRecord>, Duration, TJob> jobCreator;
     private final Function2<TJob, Integer, TEvent> eventCreator;
     private final ApplicationEventPublisher eventPublisher;
+    private final TaskScheduler taskScheduler;
     protected final RandomGenerator randomGenerator;
 
     protected Scheduler(final WssConfig config,
                         final TableType tableType,
                         final Function3<Duration, Set<TRecord>, Duration, TJob> jobCreator,
                         final Function2<TJob, Integer, TEvent> eventCreator,
-                        final ApplicationEventPublisher eventPublisher) {
+                        final ApplicationEventPublisher eventPublisher,
+                        final TaskScheduler taskScheduler) {
         final WssConfig.JobConfig jobConfig = config.getJobConfig(tableType);
         this.generationDistribution = config.createDistribution(jobConfig.generationDistribution());
         this.executionTimeDistribution = config.createDistribution(jobConfig.executionTimeDistribution());
@@ -48,6 +51,7 @@ abstract class Scheduler<TRecord extends Versionable, TJob extends Job<TRecord>,
         this.jobCreator = jobCreator;
         this.eventCreator = eventCreator;
         this.eventPublisher = eventPublisher;
+        this.taskScheduler = taskScheduler;
         this.randomGenerator = config.getRandomGenerator();
     }
 
@@ -80,6 +84,8 @@ abstract class Scheduler<TRecord extends Versionable, TJob extends Job<TRecord>,
 
     private void scheduleNext(final TEvent event) {
         eventPublisher.publishEvent(event);
+        final Duration nextEventDelay = generationDistribution.generateSample();
+        taskScheduler.scheduleWithFixedDelay(() -> scheduleNext(generateEvent()), nextEventDelay);
     }
 
     @Override
