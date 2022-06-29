@@ -45,6 +45,9 @@ public class Track implements ApplicationListener<WarehouseEvent> {
             handleTrackEvent(event.asTrackEvent());
         } else if (event.isSimulationTimeReached()) {
             this.simulationTimeReached = true;
+            if (currentJob == null) {
+                eventPublisher.publishEvent(new TrackProcessingFinishedEvent(id));
+            }
         }
     }
 
@@ -86,10 +89,11 @@ public class Track implements ApplicationListener<WarehouseEvent> {
     }
 
     private void executeCurrentJob() {
+        final Job<?> job = currentJob;
         jobExecutors.stream()
-                    .filter(executor -> executor.supports(currentJob))
+                    .filter(executor -> executor.supports(job))
                     .findFirst()
-                    .ifPresent(executor -> executor.execute(currentJob, id));
+                    .ifPresent(executor -> executor.execute(job, id));
     }
 
     @Override
