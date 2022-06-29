@@ -50,6 +50,7 @@ public class SimulationController {
         if (finishedTracks.size() == WssConfig.TRACK_COUNT) {
             log.info("All tracks have finished processing jobs, shutting down the application...");
             applicationContext.close();
+            System.exit(0);
         }
     }
 
