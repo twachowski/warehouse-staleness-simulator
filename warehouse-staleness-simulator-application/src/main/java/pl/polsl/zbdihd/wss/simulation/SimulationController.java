@@ -1,23 +1,25 @@
 package pl.polsl.zbdihd.wss.simulation;
 
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.time.StopWatch;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.*;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Component;
 import pl.polsl.zbdihd.wss.config.WssConfig;
+import pl.polsl.zbdihd.wss.scheduling.event.simulation.SimulationTimeReachedEvent;
+import pl.polsl.zbdihd.wss.scheduling.event.simulation.TrackProcessingFinishedEvent;
 
-import java.time.Duration;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 @Slf4j
-public class SimulationController implements ApplicationListener<ApplicationReadyEvent> {
+public class SimulationController {
 
-    private final StopWatch watch = StopWatch.create();
     private final ConfigurableApplicationContext applicationContext;
+    private final Set<Integer> finishedTracks = new HashSet<>(WssConfig.TRACK_COUNT);
 
     public SimulationController(final WssConfig config,
                                 final ApplicationEventPublisher eventPublisher,
@@ -25,31 +27,18 @@ public class SimulationController implements ApplicationListener<ApplicationRead
                                 final ConfigurableApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
         log.info("Running simulation with config: " + config);
-        taskScheduler.scheduleWithFixedDelay(() -> eventPublisher.publishEvent(new SimulationEndedEvent(config.getSimulationTime())),
-                                             config.getSimulationTime());
+        taskScheduler.schedule(() -> eventPublisher.publishEvent(new SimulationTimeReachedEvent(config.getSimulationTime())),
+                               new Date(System.currentTimeMillis() + config.getSimulationTime().toMillis()));
     }
 
-    @Override
-    public void onApplicationEvent(final ApplicationReadyEvent event) {
-        watch.start();
-    }
-
-    @EventListener(SimulationEndedEvent.class)
-    public void onSimulationEnd(final SimulationEndedEvent event) {
-        log.info("{} seconds have passed, terminating the simulation", event.getSimulationTime().getSeconds());
-        applicationContext.close();
-    }
-
-    @Getter
-    private static final class SimulationEndedEvent extends ApplicationEvent {
-
-        private final Duration simulationTime;
-
-        public SimulationEndedEvent(final Duration simulationTime) {
-            super(simulationTime);
-            this.simulationTime = simulationTime;
+    @EventListener(TrackProcessingFinishedEvent.class)
+    public void onTrackProcessingFinishedEvent(final TrackProcessingFinishedEvent event) {
+        log.info("Track {} has finished processing jobs", event.getTrackId());
+        finishedTracks.add(event.getTrackId());
+        if (finishedTracks.size() == WssConfig.TRACK_COUNT) {
+            log.info("All tracks have finished processing jobs, shutting down the application...");
+            applicationContext.close();
         }
-
     }
 
 }

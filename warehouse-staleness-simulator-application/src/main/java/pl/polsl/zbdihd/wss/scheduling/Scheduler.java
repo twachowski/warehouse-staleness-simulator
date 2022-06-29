@@ -16,6 +16,7 @@ import pl.polsl.zbdihd.wss.scheduling.event.NewJobEvent;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -85,7 +86,8 @@ abstract class Scheduler<TRecord extends Versionable, TJob extends Job<TRecord>,
     private void scheduleNext(final TEvent event) {
         eventPublisher.publishEvent(event);
         final Duration nextEventDelay = generationDistribution.generateSample();
-        taskScheduler.scheduleWithFixedDelay(() -> scheduleNext(generateEvent()), nextEventDelay);
+        taskScheduler.schedule(() -> scheduleNext(generateEvent()),
+                               new Date(System.currentTimeMillis() + nextEventDelay.toMillis()));
     }
 
     @Override

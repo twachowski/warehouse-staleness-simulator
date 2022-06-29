@@ -1,30 +1,24 @@
 package pl.polsl.zbdihd.wss.scheduling.event;
 
-import lombok.Getter;
-import lombok.ToString;
 import org.springframework.context.ApplicationEvent;
+import pl.polsl.zbdihd.wss.scheduling.event.simulation.SimulationTimeReachedEvent;
 
-@Getter
-@ToString
 public abstract class WarehouseEvent extends ApplicationEvent {
 
-    private final int trackId;
-
-    protected WarehouseEvent(final int trackId) {
-        super(trackId);
-        this.trackId = trackId;
+    public WarehouseEvent(final Object source) {
+        super(source);
     }
 
-    public boolean hasNewJob() {
-        return this instanceof NewJobEvent;
+    public boolean isTrackEvent() {
+        return this instanceof WarehouseTrackEvent;
     }
 
-    public NewJobEvent<?> asNewJobEvent() {
-        return (NewJobEvent<?>) this;
+    public WarehouseTrackEvent asTrackEvent() {
+        return (WarehouseTrackEvent) this;
     }
 
-    public boolean isJobFinished() {
-        return this instanceof JobFinishedEvent;
+    public boolean isSimulationTimeReached() {
+        return this instanceof SimulationTimeReachedEvent;
     }
 
 }

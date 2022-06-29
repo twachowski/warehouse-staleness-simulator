@@ -6,6 +6,7 @@ import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
@@ -36,6 +37,8 @@ import java.util.function.Supplier;
 @Value
 public class WssConfig extends AsyncConfigurerSupport {
 
+    public static final int TRACK_COUNT = 4;
+
     @NotNull
     Duration simulationTime;
 
@@ -62,23 +65,23 @@ public class WssConfig extends AsyncConfigurerSupport {
     }
 
     @Bean
-    Track track0(final Set<JobExecutor<?>> jobExecutors) {
-        return new Track(0, jobOrderingAlgorithm, jobExecutors);
+    Track track0(final Set<JobExecutor<?>> jobExecutors, final ApplicationEventPublisher eventPublisher) {
+        return new Track(0, jobOrderingAlgorithm, jobExecutors, eventPublisher);
     }
 
     @Bean
-    Track track1(final Set<JobExecutor<?>> jobExecutors) {
-        return new Track(1, jobOrderingAlgorithm, jobExecutors);
+    Track track1(final Set<JobExecutor<?>> jobExecutors, final ApplicationEventPublisher eventPublisher) {
+        return new Track(1, jobOrderingAlgorithm, jobExecutors, eventPublisher);
     }
 
     @Bean
-    Track track2(final Set<JobExecutor<?>> jobExecutors) {
-        return new Track(2, jobOrderingAlgorithm, jobExecutors);
+    Track track2(final Set<JobExecutor<?>> jobExecutors, final ApplicationEventPublisher eventPublisher) {
+        return new Track(2, jobOrderingAlgorithm, jobExecutors, eventPublisher);
     }
 
     @Bean
-    Track track3(final Set<JobExecutor<?>> jobExecutors) {
-        return new Track(3, jobOrderingAlgorithm, jobExecutors);
+    Track track3(final Set<JobExecutor<?>> jobExecutors, final ApplicationEventPublisher eventPublisher) {
+        return new Track(3, jobOrderingAlgorithm, jobExecutors, eventPublisher);
     }
 
     @Bean
@@ -107,7 +110,7 @@ public class WssConfig extends AsyncConfigurerSupport {
     }
 
     public Supplier<Integer> getTrackIdSupplier() {
-        return () -> randomGenerator.nextInt(4);
+        return () -> randomGenerator.nextInt(TRACK_COUNT);
     }
 
     public record JobConfig(@NotNull Integer priority,

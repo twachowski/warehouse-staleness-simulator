@@ -7,7 +7,7 @@ import pl.polsl.zbdihd.wss.domain.Versionable;
 
 @Getter
 @ToString
-public abstract class NewJobEvent<T extends Versionable> extends WarehouseEvent {
+public abstract class NewJobEvent<T extends Versionable> extends WarehouseTrackEvent {
 
     private final Job<T> job;
 
